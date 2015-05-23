@@ -1,10 +1,10 @@
 {
   "extName": {
-    "message": "Bilibili Helper",
+    "message": "Pubu.IM Helper",
     "description": "Extension: Name"
   },
   "goBili": {
-    "message": "Go to bilibili.com",
+    "message": "Go to Pubu.IM",
     "description": "Popup Button: go_bili"
   },
   "cssSwitchOff": {
@@ -28,7 +28,7 @@
     "description": "Popup Button: go_video"
   },
   "goDynamic": {
-    "message": "Followings",
+    "message": "Messages",
     "description": "Popup Button: go_dynamic"
   },
   "notLogged": {
