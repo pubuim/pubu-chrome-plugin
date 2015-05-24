@@ -8,18 +8,6 @@
     "default_popup": "popup.html",
     "default_title": "__MSG_extName__"
   },
-  "content_scripts": [
-    {
-      "all_frames": true,
-      "js": [
-        "jq.bilibili.js",
-        "CommentCoreLibrary.min.js",
-        "ABPlayer.min.js"
-      ],
-      "matches": ["*://*.pubu.im/*"],
-      "run_at": "document_start"
-    }
-  ],
   "default_locale": "zh_CN",
   "description": "Pubu.IM 精彩消息不错过，再也不怕我错点关闭了",
   "icons": {
@@ -33,7 +21,6 @@
   "options_page": "options.html",
   "permissions": [
     "alarms",
-
     "cookies",
     "notifications",
     "storage",

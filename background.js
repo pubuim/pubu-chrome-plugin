@@ -1,4 +1,3 @@
-
 function updateCount(messageCount) {
   if (messageCount <= 0) {
     //chrome.browserAction.setIcon({path: "gmail_not_logged_in.png"});
@@ -10,22 +9,21 @@ function updateCount(messageCount) {
     chrome.browserAction.setBadgeText({
       text: messageCount
     });
+
+    var notification = (new Date()).getTime();
+    chrome.notifications.create("bh-" + notification, {
+      type: "basic",
+      iconUrl: "imgs/icon-32.png",
+      title: chrome.i18n.getMessage('noticeficationTitle'),
+      message: chrome.i18n.getMessage('followingUpdateMessage').replace('%n', messageCount),
+      isClickable: false
+    }, function () {
+    })
   }
-
-
-  var notification = (new Date()).getTime();
-  chrome.notifications.create("bh-" + notification, {
-    type: "basic",
-    iconUrl: "imgs/icon-32.png",
-    title: chrome.i18n.getMessage('noticeficationTitle'),
-    message: chrome.i18n.getMessage('followingUpdateMessage').replace('%n', messageCount),
-    isClickable: false
-  }, function () {
-  })
 }
 
-function onAlarm(){
-  updateCount("0");
+function onAlarm() {
+  updateCount("3");
 }
 
 function onAlarm1() {
@@ -72,5 +70,3 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
       return false;
   }
 });
-
-onAlarm();

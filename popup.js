@@ -37,40 +37,28 @@ $(document).ready(function () {
       $("#css_switch,#ad_mode").hide();
     }
   });
-  $('#go_bili').html(chrome.i18n.getMessage('goBili'));
-  $('#ad_mode').html(chrome.i18n.getMessage('adModeOff'));
-  $('#go_video').html(chrome.i18n.getMessage('goVideo'));
-  $('#go_option').html(chrome.i18n.getMessage('goOption'));
-  $('#go_check').html("检查更新");
+
+  $('#make_all_read').html(chrome.i18n.getMessage('make_all_read'));
+  $('#go_pubu').html(chrome.i18n.getMessage('go_pubu'));
+  $('#go_check').html(chrome.i18n.getMessage('go_check'));
+
   getDynamic();
   adModeFunction("checkAdMode");
   setTimeout(function () {
     $('button').blur();
   }, 500);
-  $('#go_bili').click(function () {
-
-    console.log("## Pubu.IM get cookie");
+  $('#go_pubu').click(function () {
     chrome.tabs.create({
       url: 'http://pubu.im/'
     });
     return false;
   });
-  $('#go_dynamic').click(function () {
-    bkg_page.chrome.browserAction.setBadgeText({
-      text: ""
-    });
-    bkg_page.setOption("updates", 0);
-    chrome.tabs.create({
-      url: "http://www.bilibili.com/account/dynamic"
-    });
+
+  $('#make_all_read').click(function () {
+    updateCount("0");
     return false;
   });
-  $('#go_option').click(function () {
-    chrome.tabs.create({
-      url: chrome.extension.getURL('options.html')
-    });
-    return false;
-  });
+
   $('#go_check').click(function () {
     console.log("test called!")
     bkg_page.chrome.cookies.get({
@@ -107,19 +95,25 @@ $(document).ready(function () {
   });
 
   function updateCount(messageCount) {
-    chrome.browserAction.setBadgeText({
-      text: messageCount
-    });
+    if (messageCount <= 0) {
+      chrome.browserAction.setBadgeBackgroundColor({color: [190, 190, 190, 230]});
+      chrome.browserAction.setBadgeText({text: messageCount});
+    } else {
+      chrome.browserAction.setBadgeBackgroundColor({color: [208, 0, 24, 255]});
+      chrome.browserAction.setBadgeText({
+        text: messageCount
+      });
 
-    var notification = (new Date()).getTime();
-    chrome.notifications.create("bh-" + notification, {
-      type: "basic",
-      iconUrl: "imgs/icon-32.png",
-      title: chrome.i18n.getMessage('noticeficationTitle'),
-      message: chrome.i18n.getMessage('followingUpdateMessage').replace('%n', 3),
-      isClickable: false
-    }, function () {
-    })
+      var notification = (new Date()).getTime();
+      chrome.notifications.create("bh-" + notification, {
+        type: "basic",
+        iconUrl: "imgs/icon-32.png",
+        title: chrome.i18n.getMessage('noticeficationTitle'),
+        message: chrome.i18n.getMessage('followingUpdateMessage').replace('%n', messageCount),
+        isClickable: false
+      }, function () {
+      })
+    }
   }
 
   $('#ad_mode').click(function () {

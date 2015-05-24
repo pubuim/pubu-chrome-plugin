@@ -3,8 +3,12 @@
     "message": "哔哩哔哩助手",
     "description": "Extension: Name"
   },
-  "goBili": {
-    "message": "一键前往bilibili.com",
+  "go_pubu": {
+    "message": "Pubu.IM 传送门",
+    "description": "Popup Button: go_bili"
+  },
+  "go_check": {
+    "message": "检查新消息",
     "description": "Popup Button: go_bili"
   },
   "cssSwitchOff": {
@@ -45,6 +49,10 @@
   },
   "goOption": {
     "message": "更多选项",
+    "description": "Popup Button: go_option"
+  },
+  "make_all_read": {
+    "message": "朕已阅",
     "description": "Popup Button: go_option"
   },
   "searchBili": {
