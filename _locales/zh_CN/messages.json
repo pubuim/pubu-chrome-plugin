@@ -56,11 +56,11 @@
     "description": "Option Page: Title"
   },
   "noticeficationTitle": {
-    "message": "哔哩哔哩助手提醒",
+    "message": "可爱的小布 ↖(^ω^)↗",
     "description": "Noticefication: Title"
   },
   "followingUpdateMessage": {
-    "message": "您的账户收到了%n个关注推送!",
+    "message": "您收到了%n未读私信!",
     "description": "Noticefication: Following Update Message"
   }
 }

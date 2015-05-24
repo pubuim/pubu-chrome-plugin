@@ -120,7 +120,6 @@ $(document).ready(function () {
       isClickable: false
     }, function () {
     })
-    Console.log("get the massage count +", messageCount);
   }
 
   $('#ad_mode').click(function () {

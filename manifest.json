@@ -13,7 +13,6 @@
       "all_frames": true,
       "js": [
         "jq.bilibili.js",
-        "bilibili_injected.js",
         "CommentCoreLibrary.min.js",
         "ABPlayer.min.js"
       ],
@@ -34,7 +33,7 @@
   "options_page": "options.html",
   "permissions": [
     "alarms",
-    "contextMenus",
+
     "cookies",
     "notifications",
     "storage",
