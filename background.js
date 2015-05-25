@@ -1,29 +1,60 @@
-function updateCount(messageCount) {
+function updateCount(messageCount, results) {
+  var color;
   if (messageCount <= 0) {
-    //chrome.browserAction.setIcon({path: "gmail_not_logged_in.png"});
-    chrome.browserAction.setBadgeBackgroundColor({color: [190, 190, 190, 230]});
-    chrome.browserAction.setBadgeText({text: messageCount});
+    color = [190, 190, 190, 230];
   } else {
-    //chrome.browserAction.setIcon({path: "gmail_logged_in.png"});
-    chrome.browserAction.setBadgeBackgroundColor({color: [208, 0, 24, 255]});
-    chrome.browserAction.setBadgeText({
-      text: messageCount
-    });
-
+    color = [208, 0, 24, 255];
     var notification = (new Date()).getTime();
-    chrome.notifications.create("bh-" + notification, {
-      type: "basic",
+    chrome.notifications.create(results.value[0].team + "-" + notification, {
+      type: "list",
       iconUrl: "imgs/icon-32.png",
       title: chrome.i18n.getMessage('noticeficationTitle'),
-      message: chrome.i18n.getMessage('followingUpdateMessage').replace('%n', messageCount),
-      isClickable: false
+      message: "",
+      items: results.value.map(function (result) {
+        return {
+          "title": result.team + " :" + chrome.i18n.getMessage('UpdateMessage').replace('%n', result.count),
+          "message": ""
+        }
+      }),
+      isClickable: true
     }, function () {
-    })
+    });
   }
+
+  chrome.browserAction.setBadgeBackgroundColor({color: color});
+  chrome.browserAction.setBadgeText({text: messageCount});
+
 }
 
+
+chrome.notifications.onClicked.addListener(function (notificationId) {
+  console.log("you clicked :", notificationId)
+  if (notificationId) {
+    var team = notificationId.split("-")[0];
+
+    chrome.tabs.create({
+      url: 'http://' + team + '.pubu.im/'
+    });
+  } else {
+    chrome.tabs.create({
+      url: 'http://pubu.im/'
+    });
+  }
+})
+
+
+
 function onAlarm() {
-  updateCount("3");
+  var rest = {
+    count: 1,
+    value: [
+      {
+        team: "dev",
+        count: 1
+      }
+    ]
+  }
+  updateCount(rest.count.toString(), rest);
 }
 
 function onAlarm1() {
@@ -44,10 +75,16 @@ function onAlarm1() {
             return
           }
           var rest = {
-            data: 3
+            count: 1,
+            value: [
+              {
+                team: "dev",
+                count: 1
+              }
+            ]
           }
           //todo need new api for get all team unread message count  just call ones
-          updateCount(rest.data.toString());
+          updateCount(rest.count.toString(), rest);
         }
       }
       xhr.send();

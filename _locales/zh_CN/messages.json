@@ -20,7 +20,7 @@
     "message": "可爱的小布 ↖(^ω^)↗",
     "description": "Noticefication: Title"
   },
-  "followingUpdateMessage": {
+  "UpdateMessage": {
     "message": "您收到了%n未读私信!",
     "description": "Noticefication: Following Update Message"
   }
