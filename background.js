@@ -26,7 +26,7 @@ function updateCount(messageCount, results) {
 
 }
 
-
+var bkg_page = chrome.extension.getBackgroundPage();
 chrome.notifications.onClicked.addListener(function (notificationId) {
   console.log("you clicked :", notificationId)
   if (notificationId) {
@@ -43,21 +43,20 @@ chrome.notifications.onClicked.addListener(function (notificationId) {
 })
 
 
-
-function onAlarm() {
+function onAlarm1() {
   var rest = {
-    count: 1,
+    count: 10,
     value: [
       {
-        team: "dev",
-        count: 1
+        team: "pubu",
+        count: 10
       }
     ]
   }
   updateCount(rest.count.toString(), rest);
 }
 
-function onAlarm1() {
+function onAlarm() {
   bkg_page.chrome.cookies.get({
     url: "http://pubu.im",
     name: "express:sess"
@@ -66,32 +65,25 @@ function onAlarm1() {
       url: "http://pubu.im",
       name: "express:sess.sig"
     }, function (sig) {
+
       var xhr = new XMLHttpRequest();
-      xhr.open("GET", "https://beta.pubu.im/v1/teams", true);
+      xhr.open("GET", "https://beta.pubu.im/v1/services/unread_count", true);
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
           var resp = JSON.parse(xhr.responseText);
+
           if (!resp) {
             return
           }
-          var rest = {
-            count: 1,
-            value: [
-              {
-                team: "dev",
-                count: 1
-              }
-            ]
-          }
-          //todo need new api for get all team unread message count  just call ones
-          updateCount(rest.count.toString(), rest);
+          resp =resp.data;
+          updateCount(resp.count.toString(), resp);
+
         }
       }
       xhr.send();
 
     });
   });
-
 }
 
 chrome.alarms.create("onAlarm", {
@@ -107,3 +99,4 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
       return false;
   }
 });
+onAlarm();
