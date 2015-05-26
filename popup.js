@@ -1,4 +1,5 @@
 
+var bkg_page = chrome.extension.getBackgroundPage();
 
 
 

@@ -87,7 +87,7 @@ function onAlarm() {
 }
 
 chrome.alarms.create("onAlarm", {
-  periodInMinutes: 0.5
+  periodInMinutes: 1
 });
 
 chrome.alarms.onAlarm.addListener(function (alarm) {
