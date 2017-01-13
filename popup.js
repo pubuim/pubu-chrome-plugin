@@ -1,89 +1,90 @@
-
 var bkg_page = chrome.extension.getBackgroundPage();
-
+var regex = /<em class="number">(\d+)<\/em>\s+<strong class="title">新消息/g;
 
 
 $(document).ready(function () {
-  $('#make_all_read').html(chrome.i18n.getMessage('make_all_read'));
-  $('#go_pubu').html(chrome.i18n.getMessage('go_pubu'));
-  $('#go_check').html(chrome.i18n.getMessage('go_check'));
+  $('#make_all_read').html(chrome.i18n.getMessage('allRead'));
+  $('#go_mp').html(chrome.i18n.getMessage('goMP'));
+  $('#check_mp').html(chrome.i18n.getMessage('checkMP'));
 
-
+  chrome.notifications.onClicked.addListener(function () {
+    chrome.tabs.create({
+      url: 'https://mp.weixin.qq.com'
+    });
+  });
 
   setTimeout(function () {
     $('button').blur();
   }, 500);
-  $('#go_pubu').click(function () {
+  $('#go_mp').click(function () {
+    console.log('go_check')
     chrome.tabs.create({
-      url: 'http://pubu.im/'
+      url: 'https://mp.weixin.qq.com'
     });
     return false;
   });
 
   $('#make_all_read').click(function () {
-    updateCount("0");
-    return false;
+    return notify(-1)
   });
 
-  $('#go_check').click(function () {
-    bkg_page.chrome.cookies.get({
-      url: "http://pubu.im",
-      name: "express:sess"
-    }, function (sess) {
-      bkg_page.chrome.cookies.get({
-        url: "http://pubu.im",
-        name: "express:sess.sig"
-      }, function (sig) {
-        console.log("## Pubu.IM get cookie  sess", sess);
-        console.log("## Pubu.IM get cookie sig ", sig);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://beta.pubu.im/v1/services/unread_count", true);
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState == 4) {
-            var resp = JSON.parse(xhr.responseText);
-            console.log("get result ",resp);
-            if (!resp) {
-              return
-            }
-            resp =resp.data;
-            updateCount(resp.count.toString(), resp);
-
-          }
+  $('#check_mp').click(function () {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://mp.weixin.qq.com", true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+        var resp = xhr.responseText
+        console.log("get result ", resp);
+        if (!resp) {
+          return notify(-1,'页面失效，请重新登陆')
         }
-        xhr.send();
 
-      });
-    });
+        var match = regex.exec(resp)
+        console.log(match)
+        if (!match || !match[1]) {
+         return notify(-1,'页面失效，请重新登陆')
+        }
+        console.log("get result ", match[1]);
+        notify(match[1]);
+      }
+    }
+    xhr.send();
   });
 
-  function updateCount(messageCount, results) {
-    var color;
-    if (messageCount <= 0) {
-      color = [190, 190, 190, 230];
-    } else {
+
+  function notify(messageCount, message) {
+    console.log(messageCount)
+    var color = [190, 190, 190, 230];
+    if (messageCount == 0) {
+      message = "暂时没有新消息"
+    } else if (messageCount <= -1) {
+      messageCount = 0
+    } else if (messageCount > 0) {
       color = [208, 0, 24, 255];
-      var notification = (new Date()).getTime();
-      chrome.notifications.create(results.value[0].team + "-" + notification, {
-        type: "list",
-        iconUrl: "imgs/icon-32.png",
-        title: chrome.i18n.getMessage('noticeficationTitle'),
-        message: "",
-        items: results.value.map(function (result) {
-          return {
-            "title": result.team + " :" + chrome.i18n.getMessage('UpdateMessage').replace('%n', result.count),
-            "message": ""
-          }
-        }),
-        isClickable: true
-      }, function () {
-      });
+      if (!message) {
+        message = "有：" + messageCount + "条未读消息"
+      }
     }
-
-    chrome.browserAction.setBadgeBackgroundColor({color: color});
-    chrome.browserAction.setBadgeText({text: messageCount});
-
+    console.log(message)
+   return createNotification(messageCount, color, message)
   }
 
+  function createNotification(badgeCount, color, message) {
+    chrome.browserAction.setBadgeBackgroundColor({
+      color: color
+    });
+    chrome.browserAction.setBadgeText({
+      text: String(badgeCount)
+    });
 
+    if (message) {
+      chrome.notifications.create('unread ', {
+        type: "basic",
+        iconUrl: "imgs/icon-32.png",
+        title: chrome.i18n.getMessage('noticeficationTitle'),
+        message: message,
+        isClickable: true
+      }, function () {});
+    }
+  }
 });

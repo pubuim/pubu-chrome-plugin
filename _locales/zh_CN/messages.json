@@ -1,27 +1,31 @@
 {
   "extName": {
-    "message": "小布",
+    "message": "WeChat MP Notification",
     "description": "Extension: Name"
   },
-  "go_pubu": {
-    "message": "Pubu.IM 传送门",
-    "description": "Popup Button: go_bili"
+  "goMP": {
+    "message": "传送门",
+    "description": "Popup Button: go"
   },
-  "go_check": {
+  "checkMP": {
     "message": "检查新消息",
-    "description": "Popup Button: go_bili"
+    "description": "Popup Button: check"
   },
-  "make_all_read": {
+  "allRead": {
     "message": "朕已阅",
-    "description": "Popup Button: go_option"
+    "description": "Popup Button: mark"
   },
 
   "noticeficationTitle": {
     "message": "可爱的小布 ↖(^ω^)↗",
     "description": "Noticefication: Title"
   },
-  "UpdateMessage": {
+  "updateMessage": {
     "message": "您收到了%n未读私信!",
+    "description": "Noticefication: Following Update Message"
+  },
+  "errorMessage": {
+    "message": "页面失效，请重新登录",
     "description": "Noticefication: Following Update Message"
   }
 }

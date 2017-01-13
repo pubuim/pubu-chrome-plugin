@@ -1,4 +1,6 @@
 {
+  "manifest_version": 2,
+  "name": "__MSG_extName__",
   "background": {
     "page": "background.html",
     "persistent": true
@@ -15,9 +17,6 @@
     "16": "imgs/icon-16.png",
     "32": "imgs/icon-32.png"
   },
-  "manifest_version": 2,
-  "key":"../pubu-chrome-plugin.pem",
-  "name": "__MSG_extName__",
   "permissions": [
     "alarms",
     "cookies",
@@ -26,9 +25,8 @@
     "tabs",
     "webRequest",
     "webRequestBlocking",
-    "*://*.pubu.im/*"
+    "*://*.mp.weixin.qq.com/*"
   ],
-  "update_url": "https://clients2.google.com/service/update2/crx",
   "version": "0.1.1",
   "web_accessible_resources": [
     "template.html",
