@@ -19,8 +19,8 @@ function onAlarm() {
       }
 
       var match = regex.exec(resp)
-      
-      console.log(match )
+
+      console.log(match)
       console.log(resp.match(regex), resp.match(regex1))
       if (!match || !match[1]) {
         return notify(-1)
@@ -33,15 +33,20 @@ function onAlarm() {
 }
 
 
+function audioNotification(){
+    var yourSound = new Audio('a.mp3');
+    yourSound.play();
+}
+
 function notify(messageCount, message) {
   var color;
-  if (messageCount <= 0) {
-    color = [190, 190, 190, 230];
-  } else {
-    color = [208, 0, 24, 255];
+  if (messageCount > 0 || messageCount == -1) {
     if (!message) {
       message = messageCount
     }
+    color = [208, 0, 24, 255];
+  } else {
+    color = [190, 190, 190, 230];
   }
 
   return createNotification(messageCount, color, message)
@@ -62,7 +67,7 @@ function createNotification(badgeCount, color, message) {
       title: chrome.i18n.getMessage('noticeficationTitle'),
       message: badgeCount >= 0 ? chrome.i18n.getMessage('updateMessage').replace('%n', badgeCount) : chrome.i18n.getMessage('errorMessage'),
       isClickable: true
-    }, function () {});
+    }, function () {audioNotification()});
   }
 }
 

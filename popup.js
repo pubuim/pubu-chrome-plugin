@@ -51,6 +51,10 @@ $(document).ready(function () {
     xhr.send();
   });
 
+function audioNotification(){
+    var yourSound = new Audio('a.mp3');
+    yourSound.play();
+}
 
   function notify(messageCount, message) {
     console.log(messageCount)
@@ -84,7 +88,7 @@ $(document).ready(function () {
         title: chrome.i18n.getMessage('noticeficationTitle'),
         message: message,
         isClickable: true
-      }, function () {});
+      }, function () {audioNotification()});
     }
   }
 });
