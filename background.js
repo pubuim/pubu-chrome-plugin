@@ -44,7 +44,6 @@ function audioNotification(){
 
 function notify(messageCount, message) {
   var color;
-  messageCount = 10
   if (messageCount > 0 || messageCount == -1) {
     if (!message) {
       message = messageCount
