@@ -34,12 +34,17 @@ function onAlarm() {
 
 
 function audioNotification(){
+  var audio_enabled = localStorage['audio']
+  console.log('bg audio enable', audio_enabled);
+  if (audio_enabled == 'true') {
     var yourSound = new Audio('a.mp3');
     yourSound.play();
+  }
 }
 
 function notify(messageCount, message) {
   var color;
+  messageCount = 10
   if (messageCount > 0 || messageCount == -1) {
     if (!message) {
       message = messageCount

@@ -1,11 +1,13 @@
 var bkg_page = chrome.extension.getBackgroundPage();
 var regex = /<em class="number">(\d+)<\/em>\s+<strong class="title">新消息/g;
-
+var audio_enabled = (localStorage['audio'] == null)? 'false': localStorage['audio']
 
 $(document).ready(function () {
   $('#make_all_read').html(chrome.i18n.getMessage('allRead'));
   $('#go_mp').html(chrome.i18n.getMessage('goMP'));
   $('#check_mp').html(chrome.i18n.getMessage('checkMP'));
+  console.log("-----", audio_enabled);
+  $('#switch_audio').html(chrome.i18n.getMessage(audio_enabled == 'true'?'audioDisenable':'audioEnable'));
 
   chrome.notifications.onClicked.addListener(function () {
     chrome.tabs.create({
@@ -51,9 +53,23 @@ $(document).ready(function () {
     xhr.send();
   });
 
+  $('#switch_audio').click(function () {
+    if (audio_enabled == 'true') {
+      $('#switch_audio').html(chrome.i18n.getMessage('audioEnable'))
+      audio_enabled = 'false'
+    } else {
+      $('#switch_audio').html(chrome.i18n.getMessage('audioDisenable'))
+      audio_enabled = 'true'
+    }
+    localStorage['audio'] = audio_enabled
+    console.log("popup localStorage audio enable", localStorage['audio'])
+  })
+
 function audioNotification(){
+  if (audio_enabled) {
     var yourSound = new Audio('a.mp3');
     yourSound.play();
+  }
 }
 
   function notify(messageCount, message) {

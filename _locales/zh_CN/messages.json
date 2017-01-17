@@ -15,6 +15,14 @@
     "message": "朕已阅",
     "description": "Popup Button: mark"
   },
+  "audioEnable": {
+    "message": "打开语音通知",
+    "description": "Popup Button: enable"
+  },
+  "audioDisenable": {
+    "message": "关闭语音通知",
+    "description": "Popup Button: disenable"
+  },
 
   "noticeficationTitle": {
     "message": "可爱的小布 ↖(^ω^)↗",
