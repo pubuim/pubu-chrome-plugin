@@ -66,7 +66,7 @@ $(document).ready(function () {
   })
 
 function audioNotification(){
-  if (audio_enabled) {
+  if (audio_enabled == 'true') {
     var yourSound = new Audio('a.mp3');
     yourSound.play();
   }
